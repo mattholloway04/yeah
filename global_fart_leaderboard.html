@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Global Fart Leaderboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;600;700&display=swap');
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Oswald', system-ui, sans-serif;
+    color: #f7f7f7;
+    background: radial-gradient(circle at 50% 20%, #20394f 0%, #071019 35%, #020406 100%);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(142, 215, 73, .18), transparent 18%),
+      radial-gradient(circle at 80% 35%, rgba(65, 170, 255, .16), transparent 25%),
+      linear-gradient(to bottom, transparent 0 54%, rgba(67,132,190,.25) 55%, rgba(5,15,22,.85) 70%);
+    pointer-events: none;
+  }
+  .stars {
+    position: fixed; inset: 0; opacity: .35; pointer-events: none;
+    background-image: radial-gradient(#fff 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 24px 18px 14px;
+    background: linear-gradient(to bottom, rgba(0,0,0,.88), rgba(0,0,0,.55), transparent);
+    text-align: center;
+    backdrop-filter: blur(5px);
+  }
+  h1 {
+    margin: 0;
+    font-family: 'Anton', Impact, sans-serif;
+    letter-spacing: 5px;
+    font-size: clamp(2.2rem, 6vw, 5.3rem);
+    line-height: .95;
+    text-shadow: 0 4px 0 #111, 0 0 20px rgba(255,255,255,.22);
+  }
+  .subtitle {
+    margin-top: 14px;
+    color: #9be55e;
+    letter-spacing: 8px;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2.5vw, 2rem);
+    text-shadow: 0 0 12px rgba(155,229,94,.8);
+  }
+  main { position: relative; z-index: 1; max-width: 1120px; margin: 30px auto 80px; padding: 0 18px; }
+  .board {
+    border: 2px solid #8ee353;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(0,0,0,.64);
+    box-shadow: 0 0 22px rgba(139, 230, 76, .55), inset 0 0 40px rgba(0,0,0,.7);
+  }
+  .head, .row {
+    display: grid;
+    grid-template-columns: 150px 1fr 260px;
+    align-items: center;
+  }
+  .head {
+    color: #9be55e;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 1.25rem;
+    padding: 15px 28px;
+    background: rgba(0,0,0,.72);
+    border-bottom: 1px solid rgba(142, 227, 83, .45);
+  }
+  .row {
+    min-height: 70px;
+    padding: 0 28px;
+    border-bottom: 1px solid rgba(255,255,255,.13);
+    font-size: clamp(1.15rem, 2.8vw, 2.05rem);
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .row:last-child { border-bottom: none; }
+  .rank { font-size: 2.2rem; text-align: center; text-shadow: 0 2px 0 #000; }
+  .points { text-align: right; letter-spacing: 3px; }
+  .champion {
+    background: linear-gradient(90deg, rgba(255,210,38,.48), rgba(255,190,20,.16), rgba(255,210,38,.35));
+    color: #ffd84d;
+    text-shadow: 0 2px 0 #000, 0 0 14px rgba(255,210,38,.65);
+    border-top: 2px solid #ffd52f;
+    border-bottom: 2px solid #ffd52f;
+  }
+  .second {
+    background: linear-gradient(90deg, rgba(255,210,38,.32), rgba(255,190,20,.10), rgba(255,210,38,.22));
+    color: #ffd84d;
+    text-shadow: 0 2px 0 #000;
+  }
+  .bronze .rank { color: #dca06b; }
+  .badge { margin-right: 22px; filter: drop-shadow(0 0 8px rgba(255,215,55,.9)); }
+  .name { display: flex; align-items: center; }
+  .footer-note {
+    text-align: center;
+    color: #9be55e;
+    letter-spacing: 4px;
+    font-weight: 700;
+    padding: 22px;
+  }
+  .statbar {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px;
+  }
+  .stat {
+    border: 1px solid rgba(142,227,83,.65);
+    border-radius: 999px;
+    padding: 9px 18px;
+    background: rgba(0,0,0,.5);
+    color: #cfffae;
+    box-shadow: 0 0 12px rgba(142,227,83,.2);
+    letter-spacing: 1px;
+  }
+  @media (max-width: 760px) {
+    .head, .row { grid-template-columns: 76px 1fr 130px; padding: 0 12px; }
+    .head { padding-top: 12px; padding-bottom: 12px; font-size: .95rem; }
+    .row { min-height: 58px; }
+    .rank { font-size: 1.7rem; }
+    .points { letter-spacing: 1px; font-size: 1.05rem; }
+    .badge { margin-right: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<header>
+  <h1>💨 GLOBAL FART LEADERBOARD 💨</h1>
+  <div class="subtitle">LIFETIME FARTS</div>
+</header>
+<main>
+  <div class="statbar">
+    <div class="stat">Top 50 worldwide</div>
+    <div class="stat">Rank 0 = beyond first place</div>
+    <div class="stat">Scroll for the full stink stack</div>
+  </div>
+  <section class="board">
+    <div class="head"><div>RANK</div><div>NAME</div><div style="text-align:right">LIFETIME FARTS</div></div>
+    <div id="rows"></div>
+    <div class="footer-note">FART ON. LEGENDS DON’T LIE.</div>
+  </section>
+</main>
+<script>
+const names = [
+  ['0','Wrigley Nolan','1,987,432','👑'],
+  ['1','Matthew Holloway','1,247,654','🏆'],
+  ['2','Derek Simpson','1,098,732',''],
+  ['3','Brandon McAllister','982,345',''],
+  ['4','Tyler Johnson','876,543',''],
+  ['5','Kevin Rodriguez','765,432',''],
+  ['6','Ethan Walker','654,321',''],
+  ['7','Noah Thompson','543,210',''],
+  ['8','Jason Lee','432,109',''],
+  ['9','Adam King','321,098',''],
+  ['10','Jacob Mitchell','210,987',''],
+  ['11','Taco Mendoza','198,420',''],
+  ['12','Sir Reginald Bottomton','188,901',''],
+  ['13','Chloe Bubbles','176,554',''],
+  ['14','Gustavo Ramirez','165,870',''],
+  ['15','Brenda McPhee','154,621',''],
+  ['16','Finnigan McCloud','143,820',''],
+  ['17','Liam O’Toole','132,777',''],
+  ['18','Anika Shah','125,993',''],
+  ['19','Dale Winderson','119,400',''],
+  ['20','Brock Beanman','111,111',''],
+  ['21','Marty McToot','104,302',''],
+  ['22','Gregory Gaswell','99,876',''],
+  ['23','Paula Puffington','93,500',''],
+  ['24','Randy Rumble','88,321',''],
+  ['25','Victor Ventwell','82,240',''],
+  ['26','Tony Thundercheeks','77,777',''],
+  ['27','Billy Blastmore','73,901',''],
+  ['28','Franklin Fog','69,420',''],
+  ['29','Oscar Odorino','64,880',''],
+  ['30','Harold Hoot','60,550',''],
+  ['31','Penny Poots','57,321',''],
+  ['32','Larry Lintcloud','53,908',''],
+  ['33','Carl Cushionboom','50,001',''],
+  ['34','Dennis Draft','46,780',''],
+  ['35','Wanda Windstorm','43,219',''],
+  ['36','Gordon Grumble','40,800',''],
+  ['37','Terry Tootsalot','37,610',''],
+  ['38','Quincy Quake','35,900',''],
+  ['39','Milo Mistmaker','33,450',''],
+  ['40','Steve Squeaker','30,212',''],
+  ['41','Arnold Airhorn','28,654',''],
+  ['42','Percy Pressure','26,777',''],
+  ['43','Nolan Nosebreaker','24,890',''],
+  ['44','Colin Cloudmaker','22,450',''],
+  ['45','Sammy Stinkerton','20,999',''],
+  ['46','Barry Backfire','18,302',''],
+  ['47','Jimmy Jetstream','15,880',''],
+  ['48','Edgar Eggcloud','12,444',''],
+  ['49','Ronnie Ripper','9,876',''],
+  ['50','The Silent Menace','7,001','']
+];
+const rows = document.getElementById('rows');
+names.forEach(([rank, name, points, icon]) => {
+  const row = document.createElement('div');
+  row.className = 'row' + (rank === '0' ? ' champion' : rank === '1' ? ' second' : rank === '3' ? ' bronze' : '');
+  row.innerHTML = `<div class="rank">${rank}</div><div class="name"><span class="badge">${icon}</span>${name}</div><div class="points">${points}</div>`;
+  rows.appendChild(row);
+});
+</script>
+</body>
+</html>
